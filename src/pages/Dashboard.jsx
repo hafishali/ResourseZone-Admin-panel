@@ -157,8 +157,8 @@ function Dashboard() {
                 </div>
 
                 <div className="d-flex">
-                  <FormControl variant="outlined" className="me-3" style={{ minWidth: 150 }}>
-                    <InputLabel id="job-role-select-label">Select Job Role</InputLabel>
+                  <FormControl   className="me-3" style={{ minWidth: 150 }}>
+                    <InputLabel>Select Job Role</InputLabel>
                     <Select
                       labelId="job-role-select-label"
                       value={selectedRole}
@@ -228,6 +228,9 @@ function Dashboard() {
                   <th scope="col" style={{ backgroundColor: '#0EA5E9', color: 'white' }}>
                     Dead Line
                   </th>
+                  <th scope="col" style={{ backgroundColor: '#0EA5E9', color: 'white' }}>
+                   Status
+                  </th>
 
                   <th scope="col" style={{ backgroundColor: '#0EA5E9', color: 'white' }}>
                     Action
@@ -244,6 +247,7 @@ function Dashboard() {
                     <td>{job.location}</td>
                     <td>{formatDate(job.post_date)}</td>
                     <td>{formatDate(job.deadline_date)}</td>
+                    <td>{job.status===true?'Active':'Expired'}</td>
                     <td>
                       <Button
                         sx={{

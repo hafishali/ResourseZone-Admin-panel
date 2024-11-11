@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { editJobs } from '../services/allApi';
 import { toast, ToastContainer } from 'react-toastify';
+import { FormControlLabel, RadioGroup, FormLabel, FormControl, Radio } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 
-const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading}) => {
+const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob, setLoading }) => {
   const [formData, setFormData] = useState({
     jobRole: '',
-          reqId: '',
-          country: '',
-          location: '',
-          deadline_date:'',
+    reqId: '',
+    country: '',
+    location: '',
+    deadline_date: '',
+    status: ''
   });
 
-   
   useEffect(() => {
     if (SelectedJob) {
       setFormData({
@@ -21,17 +22,18 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
         reqId: SelectedJob.reqId,
         country: SelectedJob.country,
         location: SelectedJob.location,
-        deadline_date: SelectedJob.deadline_date
+        deadline_date: SelectedJob.deadline_date,
+        status: SelectedJob.status ? "true" : "false" // Convert to string for radio button
       });
     }
   }, [SelectedJob]);
 
   const handleEditJobs = async (id) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const result = await editJobs(formData,id);
+      const result = await editJobs(formData, id);
       if (result.status === 200) {
-        setLoading(false)
+        setLoading(false);
         toast.success("Job updated successfully");
         getallJobs();
         onEditHide();
@@ -40,15 +42,15 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
           reqId: '',
           country: '',
           location: '',
-          deadline_date:'',
+          deadline_date: '',
+          status: ''
         });
       }
     } catch (error) {
-      toast.error('something went wrong at editing')
+      toast.error('Something went wrong with editing');
       console.log(error);
-    }
-    finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,10 +58,11 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
     onEditHide();
     setFormData({
       jobRole: '',
-          reqId: '',
-          country: '',
-          location: '',
-          deadline_date:'',
+      reqId: '',
+      country: '',
+      location: '',
+      deadline_date: '',
+      status: ''
     });
   };
 
@@ -100,16 +103,15 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
             </Form.Group>
 
             <Form.Group className="mb-2">
-  <Form.Label className="text-lg mb-2">Country</Form.Label>
-  <Form.Control
-    type="text"
-    className="py-3 px-4 border rounded-lg text-gray-500"
-    value={formData.country}
-    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-    placeholder="Enter country"
-  />
-</Form.Group>
-
+              <Form.Label className="text-lg mb-2">Country</Form.Label>
+              <Form.Control
+                type="text"
+                className="py-3 px-4 border rounded-lg text-gray-500"
+                value={formData.country}
+                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                placeholder="Enter country"
+              />
+            </Form.Group>
 
             <Form.Group className="mb-4">
               <Form.Label className="mb-2">Location</Form.Label>
@@ -123,14 +125,28 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label className="mb-2">Date</Form.Label>
+              <Form.Label className="mb-2">DeadLine Date</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
                 placeholder="DD/MM/YY"
                 className="py-3 px-4 border rounded text-gray-500"
                 value={formData.deadline_date}
                 onChange={(e) => setFormData({ ...formData, deadline_date: e.target.value })}
               />
+            </Form.Group>
+
+            <Form.Group className="mb-4">
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Job Status</FormLabel>
+                <RadioGroup
+                  row
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                >
+                  <FormControlLabel value="true" control={<Radio />} label="Active" />
+                  <FormControlLabel value="false" control={<Radio />} label="Expired" />
+                </RadioGroup>
+              </FormControl>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -148,7 +164,7 @@ const EditModal = ({ showEdit, onEditHide, getallJobs, SelectedJob ,setLoading})
             variant="success"
             className="px-8 py-2 rounded font-normal"
             style={{ backgroundColor: '#10b981', border: 'none' }}
-            onClick={()=>handleEditJobs(SelectedJob._id)}
+            onClick={() => handleEditJobs(SelectedJob._id)}
           >
             Edit Job
           </Button>

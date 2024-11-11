@@ -25,6 +25,10 @@ export const deleteJobs=async(id)=>{
 export const getAllusers = async () => {
     return await commonApi('GET', `${BASE_URL}/user-jobs/get/usersdts`, "")
 }
+export const getAllenquiries = async () => {
+    return await commonApi('GET', `${BASE_URL}/user-jobs/get/user/enquiry`, "")
+}
+
 
 
 

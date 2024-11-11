@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import '../css/Header.css';
-import logo from '../assets/resourse Zone.png';
+import logo from '../assets/lOGO RESOURZONE.svg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useNavigate } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
@@ -43,9 +43,12 @@ const navigate=useNavigate()
         <Navbar.Collapse id="basic-navbar-nav" >
           {/* Navigation Links */}
           <Nav className="ms-auto align-items-center me-3">
+            
            
             <Nav.Link className="nav-link-custom">
             <Link to={'/users'} style={{textDecoration:"none",color:"black"}}>Users</Link> </Nav.Link>
+            <Nav.Link className="nav-link-custom">
+            <Link to={'/enquiries'} style={{textDecoration:"none",color:"black"}}>Enquiries</Link> </Nav.Link>
           </Nav>
           
         </Navbar.Collapse>
